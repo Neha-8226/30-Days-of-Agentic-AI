@@ -1,0 +1,18 @@
+{
+    "role": "AI Developer",
+    "skills":[
+        {
+            "skill": "Prompt Engineering",
+            "reason": "Designing effective inputs to get reliable outputs from LLMs."
+        },
+        {
+            "skill": "Vector Databases",
+            "reason": "Essential for building RAG systems with long-term memory."
+        },
+        {
+            "skill": "API Integration",
+            "reason": "Connecting AI models to real-world applications and web services."
+        }
+    ],
+    "difficulty": "8"
+}

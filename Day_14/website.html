@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Popular Questions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* General styles */
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f7f7; /* Light gray background */
+            color: #333;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .faq-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .faq-header h1 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 3em;
+            color: #333;
+            margin-bottom: 25px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            padding: 12px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1rem;
+            color: #555;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            -webkit-appearance: none; /* Reset button styles for consistency */
+            -moz-appearance: none;
+            appearance: none;
+        }
+
+        .filter-btn:hover {
+            border-color: #fdbd21;
+            color: #333;
+        }
+
+        .filter-btn.active {
+            background-color: #fef5e0; /* Light yellow background for active */
+            border-color: #fdbd21;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .filter-btn .icon {
+            margin-right: 8px;
+            color: #fdbd21; /* Yellow pin icon */
+        }
+
+        /* Main Content Wrapper */
+        .content-wrapper {
+            display: flex;
+            gap: 40px;
+            margin-top: 40px;
+            align-items: flex-start; /* Align items to the top */
+        }
+
+        /* Why Choose Us Card (Left Column) */
+        .why-choose-us-card {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            flex: 0 0 350px; /* Fixed width, non-shrinking */
+            box-sizing: border-box; /* Include padding in width */
+        }
+
+        .why-choose-us-card h2 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 2em;
+            color: #333;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .why-choose-us-card p {
+            font-size: 0.95em;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .why-choose-us-card .rating {
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        .why-choose-us-card .star {
+            color: #fdbd21; /* Yellow stars */
+            font-size: 1.3em;
+            margin-right: 2px;
+        }
+
+        .why-choose-us-card .rating-text {
+            font-size: 0.9em;
+            color: #888;
+            margin-bottom: 30px;
+        }
+
+        .explore-btn {
+            background-color: #fdbd21; /* Yellow button */
+            color: #333;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 8px rgba(253, 189, 33, 0.3);
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+
+        .explore-btn:hover {
+            background-color: #e6a71e; /* Darker yellow on hover */
+        }
+
+        /* FAQ List (Right Column) */
+        .faq-list {
+            flex-grow: 1;
+        }
+
+        .faq-item {
+            background-color: #ffffff;
+            border: 1px solid #fddb83; /* Light yellow border */
+            border-radius: 8px;
+            margin-bottom: 15px;
+            padding: 20px 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .faq-question {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+
+        .question-left {
+            display: flex;
+            align-items: center;
+            flex-grow: 1; /* Allows it to take up available space before the plus icon */
+        }
+
+        .faq-question h3 {
+            margin: 0;
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #333;
+            margin-left: 15px; /* Space between popular tag and question */
+        }
+
+        .popular-tag {
+            background-color: #fef5e0; /* Very light yellow for tag background */
+            color: #555;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            border: 1px solid #fddb83;
+            white-space: nowrap; /* Prevent tag from wrapping */
+        }
+
+        .popular-tag .star-icon {
+            color: #fdbd21; /* Yellow star icon */
+            font-size: 0.9em;
+        }
+
+        .expand-icon {
+            font-size: 1.5em;
+            font-weight: 300; /* Lighter weight for plus icon */
+            color: #999;
+            margin-left: 20px; /* Space between question and icon */
+            line-height: 1; /* Center the plus symbol vertically */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 900px) {
+            .content-wrapper {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .why-choose-us-card {
+                flex: 0 0 auto; /* Remove fixed width */
+                width: 100%; /* Take full width */
+                max-width: 500px; /* Limit max width for smaller screens */
+                margin-bottom: 30px;
+            }
+
+            .faq-header h1 {
+                font-size: 2.5em;
+            }
+
+            .filter-btn {
+                padding: 10px 20px;
+                font-size: 0.9em;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                margin: 20px auto;
+                padding: 0 15px;
+            }
+
+            .faq-header h1 {
+                font-size: 2em;
+                margin-bottom: 20px;
+            }
+
+            .filter-buttons {
+                gap: 10px;
+            }
+
+            .filter-btn {
+                padding: 8px 15px;
+                font-size: 0.85em;
+            }
+
+            .why-choose-us-card {
+                padding: 25px;
+            }
+
+            .why-choose-us-card h2 {
+                font-size: 1.7em;
+            }
+
+            .explore-btn {
+                padding: 12px 25px;
+                font-size: 0.9em;
+            }
+
+            .faq-item {
+                padding: 15px 20px;
+            }
+
+            .faq-question h3 {
+                font-size: 1em;
+                margin-left: 10px;
+            }
+
+            .popular-tag {
+                padding: 3px 8px;
+                font-size: 0.8em;
+            }
+
+            .expand-icon {
+                font-size: 1.2em;
+                margin-left: 15px;
+            }
+        }
+
+        @media (max-width: 450px) {
+            .filter-buttons {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .filter-btn {
+                width: auto; /* allow buttons to grow to content or flex container */
+                text-align: center;
+                justify-content: center; /* Center content within button */
+            }
+            .filter-btn .icon {
+                margin-right: 5px;
+            }
+            .question-left {
+                flex-wrap: wrap; /* Allow popular tag and question to wrap if space is tight */
+                gap: 5px;
+            }
+            .faq-question h3 {
+                margin-left: 0; /* Remove margin if wrapping */
+                font-size: 0.95em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="faq-header">
+            <h1>POPULAR QUESTIONS</h1>
+            <div class="filter-buttons">
+                <button class="filter-btn active">
+                    <span class="icon">&#128205;</span> What is your return policy?
+                </button>
+                <button class="filter-btn">
+                    <span class="icon">&#128205;</span> How long does shipping take?
+                </button>
+                <button class="filter-btn">
+                    <span class="icon">&#128205;</span> How can you reach us?
+                </button>
+            </div>
+        </header>
+
+        <main class="content-wrapper">
+            <aside class="why-choose-us-card">
+                <h2>WHY CHOOSE US</h2>
+                <p>Over 500 customers trust our products. We offer a easy return and excellent customer support.</p>
+                <div class="rating">
+                    <span class="star" aria-hidden="true">&#9733;</span>
+                    <span class="star" aria-hidden="true">&#9733;</span>
+                    <span class="star" aria-hidden="true">&#9733;</span>
+                    <span class="star" aria-hidden="true">&#9733;</span>
+                    <span class="star" aria-hidden="true">&#9733;</span>
+                </div>
+                <p class="rating-text">4.7 / 5 (198 reviews)</p>
+                <button class="explore-btn">Explore</button>
+            </aside>
+
+            <section class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <div class="question-left">
+                            <span class="popular-tag">
+                                <span class="star-icon" aria-hidden="true">&#9733;</span> Popular
+                            </span>
+                            <h3>What is your return policy?</h3>
+                        </div>
+                        <span class="expand-icon" aria-hidden="true">+</span>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <div class="question-left">
+                            <span class="popular-tag">
+                                <span class="star-icon" aria-hidden="true">&#9733;</span> Popular
+                            </span>
+                            <h3>How long does shipping take?</h3>
+                        </div>
+                        <span class="expand-icon" aria-hidden="true">+</span>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <div class="question-left">
+                            <span class="popular-tag">
+                                <span class="star-icon" aria-hidden="true">&#9733;</span> Popular
+                            </span>
+                            <h3>How can you reach us?</h3>
+                        </div>
+                        <span class="expand-icon" aria-hidden="true">+</span>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <div class="question-left">
+                            <span class="popular-tag">
+                                <span class="star-icon" aria-hidden="true">&#9733;</span> Popular
+                            </span>
+                            <h3>Is shipping free?</h3>
+                        </div>
+                        <span class="expand-icon" aria-hidden="true">+</span>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <div class="question-left">
+                            <span class="popular-tag">
+                                <span class="star-icon" aria-hidden="true">&#9733;</span> Popular
+                            </span>
+                            <h3>What payment methods do you accept?</h3>
+                        </div>
+                        <span class="expand-icon" aria-hidden="true">+</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

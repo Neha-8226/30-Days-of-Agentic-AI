@@ -1,0 +1,16 @@
+Date,Product,Region,Sales,Quantity,Customer
+2026-01-01,Laptop,North,1200,1,Alice
+2026-01-02,Mouse,South,25,5,Bob
+2026-01-03,Laptop,East,1200,2,Charlie
+2026-01-04,Monitor,West,300,3,Alice
+2026-01-05,Headphones,North,150,10,David
+2026-01-06,Laptop,South,1200,1,Eve
+2026-01-07,Mouse,East,25,2,Charlie
+2026-01-08,Keyboard,West,50,5,Alice
+2026-01-09,Monitor,North,300,2,Bob
+2026-01-10,Laptop,West,1200,1,David
+2026-01-11,Headphones,South,150,5,Eve
+2026-01-12,Mouse,North,25,3,Alice
+2026-01-13,Keyboard,East,50,4,Charlie
+2026-01-14,Monitor,South,300,1,Bob
+2026-01-15,Laptop,North,1200,1,David
